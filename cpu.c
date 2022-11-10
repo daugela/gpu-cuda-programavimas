@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#define N 1920
-
 void vector_add(float *out, float *a, float *b, int n) {
     for(int i = 0; i < n; i ++){
         out[i] = a[i] + b[i];
@@ -12,6 +10,9 @@ void vector_add(float *out, float *a, float *b, int n) {
 
 int main()
 {
+    // Nustatome vektoriaus ilgį (narių skaičių)
+    int N = 1<<20; // Didelis skaičius 1048576 arba 2^20
+
     float *a, *b, *out;
 
     // Išskiriame atmintyje vietos trims kintamiesiems (masyvams)
@@ -28,7 +29,7 @@ int main()
         b[i] = (float)i;
     }
 
-    // Executing kernel 
+    // Paleidžiame Kernel funkciją
     vector_add(out, a, b, N);
 
     // Patikrinkime rezultatus
@@ -36,7 +37,7 @@ int main()
         assert(out[i] == a[i] + b[i]);
     }
 
-    // Sėkmingai suskaičiuota dviejų N ilgio vektorių suma [0.00, 2.00, 4.00, ... 3834.00, 3836.00, 3838.00]
+    // Sėkmingai suskaičiuota dviejų N ilgio vektorių suma [0.00, 2.00, 4.00, ... 2097146.00, 2097148.00, 2097150.00]
     printf("Sėkmingai suskaičiuota dviejų N ilgio vektorių suma [%.2f, %.2f, %.2f, ... %.2f, %.2f, %.2f] \n", out[0], out[1], out[2], out[N-3], out[N-2], out[N-1]);
 
     // Atlaisviname kintamuosius ir baigiame programą
